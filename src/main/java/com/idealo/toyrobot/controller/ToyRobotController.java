@@ -1,12 +1,14 @@
 package com.idealo.toyrobot.controller;
 
 import com.idealo.toyrobot.manager.BoardManager;
-import com.idealo.toyrobot.model.BulkCommandRequest;
-import com.idealo.toyrobot.model.Outcome;
+import com.idealo.toyrobot.model.CommandRequest;
+import com.idealo.toyrobot.model.CommandResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ToyRobotController {
@@ -15,19 +17,11 @@ public class ToyRobotController {
     private BoardManager boardManager;
 
 
-/*
-    @RequestMapping("/")
-    public String index() {
-        return boardManager.boardSize();
-    }
-*/
-
-    @RequestMapping( value = "/bulk", method = RequestMethod.POST )
-    public ResponseEntity<Outcome> bulkProcess(@RequestBody BulkCommandRequest commandRequest)
-    {
+    @PostMapping(value = "/execute")
+    public ResponseEntity<CommandResponse> execute(@RequestBody CommandRequest commandRequest) {
         return new ResponseEntity<>(
-                boardManager.processBulk( commandRequest ),
-                HttpStatus.OK );
+                boardManager.executeCommand(commandRequest),
+                HttpStatus.OK);
     }
 
 }

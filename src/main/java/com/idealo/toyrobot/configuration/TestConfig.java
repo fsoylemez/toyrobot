@@ -11,8 +11,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 
 @Configuration
-@Profile(value = {"development"})
-public class AppConfig {
+@Profile(value = {"test"})
+public class TestConfig {
 
     @Bean
     public ResourceBundleMessageSource messageSource() {

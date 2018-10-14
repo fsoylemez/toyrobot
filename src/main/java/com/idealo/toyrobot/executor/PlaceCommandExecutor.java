@@ -1,44 +1,31 @@
 package com.idealo.toyrobot.executor;
 
-import com.idealo.toyrobot.model.Direction;
+import com.idealo.toyrobot.messages.Messages;
+import com.idealo.toyrobot.model.Board;
+import com.idealo.toyrobot.model.CommandResponse;
+import com.idealo.toyrobot.model.PlaceCommand;
 import com.idealo.toyrobot.model.Robot;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class PlaceCommandExecutor implements CommandExecutor {
+@Service(value = "place")
+public class PlaceCommandExecutor {
 
-    @Value( "${spring.board.x.dimension}" )
-    private String boardXDimension;
+    @Autowired
+    Board board;
 
-    @Value( "${spring.board.y.dimension}" )
-    private String boardYDimension;
+    @Autowired
+    Messages messages;
 
-    @Override
-    public Robot execute(Robot robot, String command) {
-        if(command==null || command.isEmpty())
-            return robot;
-        String[] statement = command.split(" ");
-        if(statement==null || statement.length!=2)
-            return robot;
-        String[] parameters = statement[1].split(",");
-        if(parameters==null || parameters.length!=3)
-            return robot;
-        int xCoor,yCoor;
-        Direction direction;
-        try {
-            xCoor = Integer.parseInt(parameters[0]);
-            yCoor = Integer.parseInt(parameters[1]);
-            direction = Direction.valueOf(parameters[2]);
+    public CommandResponse execute(PlaceCommand command) {
+
+        if (command.getxCoordinate() < 0 | command.getxCoordinate() >= Integer.valueOf(board.getBoardXDimension()) | command.getyCoordinate() < 0 | command.getyCoordinate() >= Integer.valueOf(board.getBoardYDimension())) {
+            return new CommandResponse(false, messages.get("toyrobot.cant.place"));
         }
-        catch (IllegalArgumentException e){
-            return robot;
-        }
-        if(xCoor<0 | xCoor>=Integer.valueOf(boardXDimension) | yCoor<0 | yCoor>=Integer.valueOf(boardYDimension))
-            return robot;
 
-        robot.setxCoordinate(xCoor);
-        robot.setyCoordinate(yCoor);
-        robot.setDirection(direction);
+        Robot robot = new Robot(command.getxCoordinate(), command.getyCoordinate(), command.getDirection());
 
-        return robot;
+        board.setRobot(robot);
+        return new CommandResponse();
     }
 }

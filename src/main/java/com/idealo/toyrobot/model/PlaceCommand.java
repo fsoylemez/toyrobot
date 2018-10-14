@@ -1,11 +1,6 @@
 package com.idealo.toyrobot.model;
 
-import java.io.Serializable;
-
-
-public class Robot implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class PlaceCommand extends Command {
 
     private Integer xCoordinate;
 
@@ -13,16 +8,12 @@ public class Robot implements Serializable {
 
     private Direction direction;
 
-
-    public Robot(Integer xCoordinate, Integer yCoordinate, Direction direction) {
+    public PlaceCommand(CommandType commandType, Integer xCoordinate, Integer yCoordinate, Direction direction) {
+        this.setCommandType(commandType);
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.direction = direction;
     }
-
-    public Robot() {
-    }
-
 
     public Integer getxCoordinate() {
         return xCoordinate;
@@ -46,9 +37,5 @@ public class Robot implements Serializable {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
-    }
-
-    public String status() {
-        return xCoordinate + "," + yCoordinate + "," + direction.name();
     }
 }

@@ -1,13 +1,28 @@
 package com.idealo.toyrobot.executor;
 
+import com.idealo.toyrobot.messages.Messages;
+import com.idealo.toyrobot.model.Board;
+import com.idealo.toyrobot.model.CommandResponse;
 import com.idealo.toyrobot.model.Robot;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class LeftCommandExecutor implements CommandExecutor  {
-    @Override
-    public Robot execute(Robot robot, String command) {
-        if(robot==null)
-            return null;
+@Service(value = "left")
+public class LeftCommandExecutor implements CommandExecutor {
+
+    @Autowired
+    Board board;
+
+    @Autowired
+    Messages messages;
+
+    public CommandResponse execute() {
+        Robot robot = board.getRobot();
+
+        if (robot == null)
+            return new CommandResponse(false, messages.get("toyrobot.no.robot"));
         robot.setDirection(robot.getDirection().getLeft());
-        return robot;
+        board.setRobot(robot);
+        return new CommandResponse();
     }
 }

@@ -1,33 +1,34 @@
 package com.idealo.toyrobot.model;
 
-import java.io.Serializable;
 
+import org.springframework.beans.factory.annotation.Value;
 
-public class Board implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Board {
 
-    private Integer xDimension;
+    @Value("${spring.board.x.dimension}")
+    private String boardXDimension;
 
-    private Integer yDimension;
+    @Value("${spring.board.y.dimension}")
+    private String boardYDimension;
 
-    public Board(Integer boardXDimension, Integer boardYDimension) {
+    private Robot robot;
+
+    public Board() {
     }
 
-    public Board() {}
-
-    public Integer getxDimension() {
-        return xDimension;
+    public Robot getRobot() {
+        return robot;
     }
 
-    public void setxDimension(Integer xDimension) {
-        this.xDimension = xDimension;
+    public void setRobot(Robot robot) {
+        this.robot = robot;
     }
 
-    public Integer getyDimension() {
-        return yDimension;
+    public String getBoardXDimension() {
+        return boardXDimension;
     }
 
-    public void setyDimension(Integer yDimension) {
-        this.yDimension = yDimension;
+    public String getBoardYDimension() {
+        return boardYDimension;
     }
 }

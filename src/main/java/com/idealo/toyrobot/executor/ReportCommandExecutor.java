@@ -1,10 +1,26 @@
 package com.idealo.toyrobot.executor;
 
-import com.idealo.toyrobot.model.Robot;
+import com.idealo.toyrobot.messages.Messages;
+import com.idealo.toyrobot.model.Board;
+import com.idealo.toyrobot.model.CommandResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class ReportCommandExecutor implements CommandExecutor  {
+@Service(value = "report")
+public class ReportCommandExecutor implements CommandExecutor {
+
+    @Autowired
+    Board board;
+
+    @Autowired
+    Messages messages;
+
     @Override
-    public Robot execute(Robot robot, String command) {
-        return null;
+    public CommandResponse execute() {
+        if (board.getRobot() == null)
+            return new CommandResponse(false, messages.get("toyrobot.no.robot"));
+
+        return new CommandResponse(board.getRobot().status());
     }
+
 }

@@ -1,18 +1,24 @@
 package com.idealo.toyrobot.model;
 
 public enum Direction {
-    NORTH(Direction.EAST,Direction.WEST),
-    EAST(Direction.SOUTH,Direction.NORTH),
-    SOUTH(Direction.WEST,Direction.EAST),
-    WEST(Direction.NORTH,Direction.SOUTH);
+    NORTH,
+    EAST,
+    SOUTH,
+    WEST;
 
-    Direction right;
-    Direction left;
-
-     Direction(Direction right,Direction left){
-        this.right = right;
-        this.left = left;
+    static {
+        NORTH.right = EAST;
+        NORTH.left = WEST;
+        EAST.right = SOUTH;
+        EAST.left = NORTH;
+        SOUTH.right = WEST;
+        SOUTH.left = EAST;
+        WEST.right = NORTH;
+        WEST.left = SOUTH;
     }
+
+    private Direction right;
+    private Direction left;
 
     public Direction getRight() {
         return right;

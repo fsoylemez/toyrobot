@@ -1,13 +1,4 @@
-﻿
-management:
-  health:
-    defaults:
-      enabled: false
-    db:
-      enabled: true
-
-    
-spring:
+﻿spring:
   application.name: toyrobot
   profiles:
     active: development
@@ -23,3 +14,18 @@ spring:
 
 server:
   port: 8080
+  servlet.contextPath: /toyrobot
+
+
+---
+
+spring:
+  profiles: test
+
+  board:
+    x.dimension: 5
+    y.dimension: 5
+
+server:
+  port: 8080
+  servlet.contextPath: /toyrobot
