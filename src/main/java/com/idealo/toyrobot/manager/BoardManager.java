@@ -32,11 +32,10 @@ public class BoardManager {
         CommandParsingResponse parsingResponse = parser.parseCommand(commandRequest.getCommand());
 
         if (!parsingResponse.getValidCommand()) {
+            LOG.info(String.format("Could not parse command %s",commandRequest.getCommand()));
             return new CommandResponse(false, parsingResponse.getErrorMessage());
         }
-        else{
-            LOG.info(String.format("Could not parse command %s",commandRequest.getCommand()));
-        }
+
 
         if (CommandType.PLACE.equals(parsingResponse.getCommand().getCommandType()))
             return place.execute((PlaceCommand) parsingResponse.getCommand());
